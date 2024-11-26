@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.json'); // Path ke file kunci akun layanan Firebase
+const serviceAccount = require('./serviceAccountKey.json'); // Path ke file kunci akun layanan Firebase
 
 // Inisialisasi Firebase Admin SDK
 admin.initializeApp({

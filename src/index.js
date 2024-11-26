@@ -48,15 +48,29 @@ app.post('/predict', upload.single('image'), async (req, res) => {
       });
     }
 
+    // Validasi integritas gambar
+    let decodedImage;
+    try {
+      const imageBuffer = req.file.buffer;
+      decodedImage = tf.node.decodeImage(imageBuffer, 3); // Jika gagal, akan melempar error
+    } catch (error) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Terjadi kesalahan dalam melakukan prediksi',
+      });
+    }
+
     // Preprocess image
     const imageBuffer = req.file.buffer;
-    const decodedImage = tf.node.decodeImage(imageBuffer, 3);
+    decodedImage = tf.node.decodeImage(imageBuffer, 3);
+
+    // Resize dan buat tensor input untuk model
     const resizedImage = tf.image.resizeBilinear(decodedImage, [224, 224]);
     const inputTensor = resizedImage.expandDims(0).div(255.0);
 
     // Predict
     const prediction = await model.predict(inputTensor).data();
-    const isCancer = prediction[0] > 0.5; // Adjust threshold based on model
+    const isCancer = prediction[0] > 0.58;
 
     // Response message
     const result = isCancer ? 'Cancer' : 'Non-cancer';
