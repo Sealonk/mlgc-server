@@ -11,6 +11,7 @@ const { db } = require('./firebase'); // Pastikan Anda sudah mengkonfigurasi Fir
 async function savePrediction(id, result, suggestion, confidence) {
   try {
     const predictionData = {
+      id,
       result,
       suggestion,
       confidence,
@@ -21,6 +22,8 @@ async function savePrediction(id, result, suggestion, confidence) {
     let docRef;
     if (!id) {
       docRef = await db.collection('predictions').add(predictionData);
+      // Update the document with the generated id
+      await docRef.update({ id: docRef.id });
     } else {
       docRef = db.collection('predictions').doc(id);
       await docRef.set(predictionData);

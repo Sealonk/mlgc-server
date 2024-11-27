@@ -7,6 +7,7 @@ const { db } = require('./firebase');
 const tf = require('@tensorflow/tfjs-node');
 const axios = require('axios');
 const path = require('path');
+const sharp = require('sharp');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -48,12 +49,12 @@ app.post('/predict', upload.single('image'), async (req, res) => {
       });
     }
 
-    // Validasi integritas gambar
-    let decodedImage;
-    try {
-      const imageBuffer = req.file.buffer;
-      decodedImage = tf.node.decodeImage(imageBuffer, 3); // Jika gagal, akan melempar error
-    } catch (error) {
+    // Menggunakan sharp untuk memeriksa format gambar
+    const image = sharp(req.file.buffer);
+    const metadata = await image.metadata();
+
+    // Cek apakah gambar memiliki 3 saluran warna (RGB)
+    if (metadata.channels !== 3) {
       return res.status(400).json({
         status: 'fail',
         message: 'Terjadi kesalahan dalam melakukan prediksi',
@@ -88,6 +89,7 @@ app.post('/predict', upload.single('image'), async (req, res) => {
         id: docRef.id,
         result,
         suggestion,
+        createdAt: new Date().toISOString(), // Tambahkan field createdAt
       },
     });
   } catch (error) {
@@ -114,7 +116,10 @@ app.use((err, req, res, next) => {
 app.get('/predict/histories', async (req, res) => {
   try {
     const snapshot = await db.collection('predictions').get();
-    const histories = snapshot.docs.map((doc) => doc.data());
+    const histories = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
     // Mengirimkan respons dengan status dan data yang benar
     res.status(200).json({
