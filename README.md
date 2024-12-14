@@ -107,6 +107,7 @@ curl -X GET http://localhost:8080/predict/histories
   - predictionService.js    # Logic for saving predictions to Firestore
 - .gitignore                # Git ignore file
 - package.json              # Project metadata and dependencies
+- package-lock.json         # Lock file for npm dependencies
 - README.md                 # Project documentation
 - serviceAccountKey.json    # Firebase service account key (not to be shared publicly)
 ```
