@@ -1,4 +1,4 @@
-# mlgc-bserver - Skin Cancer Detection API
+# mlgc-mserver - Skin Cancer Detection API
 
 This repository provides a backend server for skin cancer detection using machine learning. It uses TensorFlow.js to load a pre-trained model, processes image uploads, and returns predictions (Cancer or Non-cancer). The predictions are then stored in Firebase Firestore for later access.
 
@@ -21,13 +21,13 @@ This repository provides a backend server for skin cancer detection using machin
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/mlgc-bserver.git
+git clone https://github.com/yourusername/mlgc-mserver.git
 ```
 
 ### 2. Install dependencies
 
 ```bash
-cd mlgc-bserver
+cd mlgc-mserver
 npm install
 ```
 
