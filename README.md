@@ -21,7 +21,7 @@ This repository provides a backend server for skin cancer detection using machin
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/mlgc-server.git
+git clone https://github.com/Sealonk/mlgc-server.git
 ```
 
 ### 2. Install dependencies
