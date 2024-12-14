@@ -100,12 +100,12 @@ curl -X GET http://localhost:8080/predict/histories
 ## Folder Structure
 
 ```bash
+- node_modules/
 - src/
   - firebase.js             # Firebase initialization and Firestore setup
   - index.js                # Express server and prediction logic
   - predictionService.js    # Logic for saving predictions to Firestore
 - .gitignore                # Git ignore file
-- node_modules
 - package.json              # Project metadata and dependencies
 - README.md                 # Project documentation
 - serviceAccountKey.json    # Firebase service account key (not to be shared publicly)
